@@ -21,8 +21,11 @@ function request(cb, params) {
     });
   });
 
+  const json = JSON.stringify(params);
+
+  console.log("json params: ", json);
   if (params) {
-    req.write(JSON.stringify(params));
+    req.write(json);
   }
 
   req.end();

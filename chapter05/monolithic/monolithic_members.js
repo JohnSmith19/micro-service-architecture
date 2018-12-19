@@ -32,7 +32,7 @@ function register(method, pathname, params, cb) {
     errormessage: "success"
   };
 
-  if (params.username == null || params.passowrd == null) {
+  if (params.username == null || params.password == null) {
     response.errorcode = 1;
     response.errormessage = "Invalid Parameters";
     cb(response);
@@ -43,7 +43,7 @@ function register(method, pathname, params, cb) {
       "insert into members (username, password) values('" +
         params.username +
         "', password('" +
-        params.passowrd +
+        params.password +
         "'));",
       (error, results, fields) => {
         if (error) {
@@ -65,7 +65,7 @@ function inquiry(method, pathname, params, cb) {
     errormessage: "success"
   };
 
-  if (params.username == null || params.passowrd == null) {
+  if (params.username == null || params.password == null) {
     response.errorcode = 1;
     response.errormessage = "Invalid Parameters";
     cb(response);
@@ -76,7 +76,7 @@ function inquiry(method, pathname, params, cb) {
       "select id from members where username = '" +
         params.username +
         "' and password = password('" +
-        params.passowrd +
+        params.password +
         "');",
       (error, results, fields) => {
         if (error || results.length == 0) {

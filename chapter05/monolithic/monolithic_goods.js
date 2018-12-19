@@ -35,7 +35,7 @@ function register(method, pathname, params, cb) {
     params.name == null ||
     params.category == null ||
     params.price == null ||
-    params.decscription == null
+    params.description == null
   ) {
     response.errorcode = 1;
     response.errormessage = "Invalid Parameters";
@@ -45,7 +45,7 @@ function register(method, pathname, params, cb) {
     connection.connect();
     connection.query(
       "insert into goods(name, category, price, description) values(?, ?, ?, ?)",
-      [params.name, params.category, params.price, params.decscription],
+      [params.name, params.category, params.price, params.description],
       (error, results, fields) => {
         if (error) {
           response.errorcode = 1;
