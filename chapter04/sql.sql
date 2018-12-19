@@ -1,3 +1,7 @@
+CREATE DATABASE monolithic;
+
+use monolithic;
+
 CREATE TABLE IF NOT EXISTS `goods` (
   `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(128) NOT NULL,
