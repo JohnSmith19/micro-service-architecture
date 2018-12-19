@@ -94,3 +94,46 @@ function members_delete(cb) {
   options.path = "/members?username=test_account";
   request(cb);
 }
+
+/**
+ * 구매 관리 API 테스트
+ */
+function purchases(callback) {
+  purchases_post(() => {
+    purchases_get(() => {
+      callback();
+    });
+  });
+
+  function purchases_post(cb) {
+    options.method = "POST";
+    options.path = "/purchases";
+    request(cb, {
+      userid: 1,
+      goodsid: 1
+    });
+  }
+
+  function purchases_get(cb) {
+    options.method = "GET";
+    options.path = "/purchases?userid=1";
+    request(cb);
+  }
+}
+
+console.log(
+  "=============================== members ================================="
+);
+members(() => {
+  console.log(
+    "=================================== goods =================================="
+  );
+  goods(() => {
+    console.log(
+      "==================================== purchases =========================="
+    );
+    purchases(() => {
+      console.log("done");
+    });
+  });
+});

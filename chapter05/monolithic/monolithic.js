@@ -36,13 +36,13 @@ var server = http
 function onRequest(res, method, pathname, params) {
   switch (pathname) {
     case "/members":
-      members.onRequest(req, method, pathname, params, response);
+      members.onRequest(res, method, pathname, params, response);
       break;
     case "/goods":
-      goods.onRequest(req, method, pathname, params, response);
+      goods.onRequest(res, method, pathname, params, response);
       break;
     case "/purchases":
-      purchases.onRequest(req, method, pathname, params, response);
+      purchases.onRequest(res, method, pathname, params, response);
       break;
     default:
       res.writeHead(404);

@@ -1,6 +1,6 @@
 const mysql = require("mysql");
 const conn = {
-  host: "localhost",
+  host: "121.141.237.177",
   user: "micro",
   password: "service",
   database: "monolithic"
@@ -95,7 +95,7 @@ function unregister(method, pathname, params, cb) {
     connection.connect();
     connection.query(
       "delete from goods where id = ?",
-      [param.id],
+      [params.id],
       (error, results, fields) => {
         if (error) {
           response.errorcode = 1;
