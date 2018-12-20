@@ -105,3 +105,23 @@ function onDistribute(data) {
     }
   }
 }
+
+function onCreateClient(options) {
+  console.log("onCreateClient");
+}
+
+function onReadClient(options, packet) {}
+
+function onEndClient(options) {
+  var key = options.host + ":" + options.port;
+  console.log("onEndClient", mapClients[key]);
+  for (var n in mapClients[key].info.urls) {
+    var node = mapClients[key].info.urls[n];
+    delete mapUrls[node];
+  }
+  delete mapClients[key];
+}
+
+function onErrorClient(options) {
+  console.log("onErrorClient");
+}
