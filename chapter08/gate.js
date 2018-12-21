@@ -75,7 +75,27 @@ var server = http
     }, 3000);
   });
 
-function onRequest(res, method, pathname, params) {}
+function onRequest(res, method, pathname, params) {
+  var key = method + pathname;
+  var client = mapUrls[key];
+  if (client == null) {
+    res.writeHead(404);
+    res.end();
+    return;
+  } else {
+    params.key = index;
+    var packet = {
+      uri: pathname,
+      method: method,
+      params: params
+    };
+    mapResponse[index] = res;
+    index++;
+    if (mapRR[key] == null) mapRR[key] = 0;
+    mapRR[key]++;
+    client[mapRR[key] % client.length].write(packet);
+  }
+}
 
 function onDistribute(data) {
   for (var n in data.params) {
@@ -110,7 +130,14 @@ function onCreateClient(options) {
   console.log("onCreateClient");
 }
 
-function onReadClient(options, packet) {}
+function onReadClient(options, packet) {
+  console.log("onReadClient", packet);
+  mapResponse[packet.key].writeHead(200, {
+    "Content-Type": "application/json"
+  });
+  mapResponse[packet.key].end(JSON.stringify(packet));
+  delete mapResponse[packet.key];
+}
 
 function onEndClient(options) {
   var key = options.host + ":" + options.port;
