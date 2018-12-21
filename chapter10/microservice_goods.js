@@ -2,6 +2,7 @@
 
 // 비즈니스로직 파일 참조
 const business = require("./monolithic_goods");
+const cluster = require("cluster");
 
 // Server클래스 참조
 class goods extends require("./server.js") {
@@ -33,4 +34,13 @@ class goods extends require("./server.js") {
   }
 }
 
-new goods();
+if (cluster.isMaster) {
+  cluster.fork();
+
+  cluster.on("exit", (worker, code, signal) => {
+    console.log(`worker ${worker.process.pid} died`);
+    cluster.fork();
+  });
+} else {
+  new goods();
+}

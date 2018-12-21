@@ -1,6 +1,7 @@
 "use strict";
 
 const business = require("./monolithic_purchases");
+const cluster = require("cluster");
 
 class purchases extends require("./server") {
   constructor() {
@@ -28,4 +29,13 @@ class purchases extends require("./server") {
   }
 }
 
-new purchases();
+if (cluster.isMaster) {
+  cluster.fork();
+
+  cluster.on("exit", (worker, code, signal) => {
+    console.log(`worker ${worker.process.pid} died`);
+    cluster.fork();
+  });
+} else {
+  new purchases();
+}
